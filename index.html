@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Tag Image for OCR</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Custom CSS for positioning logo and footer -->
+    <style>
+      /* Position the logo with padding for space */
+      .logo-container {
+        display: flex;
+        justify-content: flex-start; /* โลโก้ชิดซ้าย */
+        align-items: flex-start; /* โลโก้ชิดบน */
+        padding: 30px 50px; /* เพิ่มระยะห่างจากขอบ */
+      }
+
+      .logo {
+        width: 150px; /* ปรับขนาดโลโก้ */
+        max-width: 150%;
+      }
+
+      /* ปรับขนาดโลโก้ในหน้าจอเล็ก */
+      @media (max-width: 768px) {
+        .logo {
+          width: 150px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo-container {
+          justify-content: center; /* จัดกึ่งกลางบนหน้าจอมือถือ */
+          padding: 30px 20px; /* เพิ่มระยะห่างจากขอบบนและซ้าย */
+        }
+
+        .logo {
+          width: 150px; /* ขนาดโลโก้เล็กลงสำหรับมือถือ */
+        }
+      }
+
+      /* Footer styles */
+      footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        font-size: 14px;
+        color: #6c757d;
+      }
+
+      /* Container Styling */
+.container {
+  max-width: 1200px; /* จำกัดความกว้างสูงสุดของ container เพื่อไม่ให้กว้างเกินไป */
+  margin: 0 auto; /* จัดให้อยู่กึ่งกลาง */
+  padding: 40px 10px; /* เพิ่ม padding รอบ ๆ เนื้อหา */
+  background-color: #f8f9fa; /* สีพื้นหลังที่นุ่มนวล */
+  border-radius: 8px; /* เพิ่มความมนให้กับมุมของ container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้ container ดูลอยขึ้นมา */
+}
+
+/* Heading Styling */
+h1 {
+  font-size: 1.5rem; /* ขนาดฟอนต์ใหญ่สำหรับหัวข้อ */
+  text-align: center; /* จัดข้อความให้อยู่กลาง */
+  margin-bottom: 10px; /* เว้นระยะห่างจากเนื้อหาด้านล่าง */
+  color: #343a40; /* ใช้สีเข้มเพื่อให้อ่านง่าย */
+}
+
+/* Form and input styling */
+.form-group {
+  margin-bottom: 20px; /* เพิ่มระยะห่างระหว่างฟอร์มแต่ละส่วน */
+}
+
+label {
+  font-size: 1.2rem; /* ขนาดของ label ที่เหมาะสม */
+  color: #495057; /* สีของข้อความที่อ่านง่าย */
+}
+
+input[type="file"] {
+  padding: 10px; /* เพิ่ม padding ให้ input ดูเป็นปุ่มมากขึ้น */
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* เพิ่ม animation เล็กน้อยเมื่อ hover */
+}
+
+button:hover {
+  background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+}
+
+.alert {
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 30px 10px; /* ลด padding เมื่อหน้าจอมีขนาดเล็กลง */
+  }
+
+  h1 {
+    font-size: 1.5rem; /* ลดขนาดฟอนต์สำหรับหัวข้อในหน้าจอขนาดเล็ก */
+  }
+
+  button {
+    width: 100%; /* ปรับให้ปุ่มกว้างเต็มที่ในหน้าจอขนาดเล็ก */
+    font-size: 1rem;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Logo with space from the top and left -->
+    <div class="logo-container">
+      <img src="static/shera_logo.png" alt="Company Logo" class="logo">
+    </div>
+
+    <div class="container">
+      <h3 class="mt-5">Upload or Capture an Image for OCR</h1>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alert alert-info">
+            {{ messages[0] }}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" enctype="multipart/form-data" action="/upload">
+        <div class="form-group">
+          <label for="file">Choose image file</label>
+          <input type="file" class="form-control-file" id="file" name="file">
+        </div>
+
+        <div class="form-group">
+          <label>Or capture an image from your camera</label>
+          <div>
+            <video id="video" width="320" height="240" autoplay></video>
+            <button type="button" class="btn btn-secondary mt-2" id="capture">Capture</button>
+          </div>
+          <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+          <input type="hidden" id="captured_image" name="captured_image">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
+    </div>
+
+    <!-- Footer with developer credit -->
+    <footer>
+      Developed by [Fac 4.0]
+    </footer>
+
+    <script>
+      var video = document.getElementById('video');
+      var canvas = document.getElementById('canvas');
+      var capturedImageInput = document.getElementById('captured_image');
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(function (stream) {
+            video.srcObject = stream;
+            video.play();
+          });
+      }
+
+      document.getElementById('capture').addEventListener('click', function () {
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        var imageData = canvas.toDataURL('image/png');
+        capturedImageInput.value = imageData;
+        canvas.style.display = 'block';
+      });
+    </script>
+  </body>
+</html>

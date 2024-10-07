@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Extracted Numbers</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+      /* Make the table responsive */
+      .table-responsive {
+        overflow-x: auto;
+      }
+
+      /* Adjust textarea width to fill available space */
+      textarea {
+        width: 100%;
+      }
+
+      /* Media queries for smaller screens */
+      @media (max-width: 768px) {
+        /* Stack the table rows for better mobile display */
+        table {
+          display: block;
+          width: 100%;
+        }
+        
+        thead {
+          display: none; /* Hide table headers */
+        }
+        
+        tbody tr {
+          display: block;
+          margin-bottom: 15px;
+        }
+
+        tbody tr td {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px;
+          border: 1px solid #ddd;
+        }
+
+        /* Show the label next to each value */
+        tbody tr td:before {
+          content: attr(data-label);
+          font-weight: bold;
+          flex: 1;
+          margin-right: 10px;
+        }
+      }
+
+            /* Position the logo with padding for space */
+            .logo-container {
+        display: flex;
+        justify-content: flex-start; /* โลโก้ชิดซ้าย */
+        align-items: flex-start; /* โลโก้ชิดบน */
+        padding: 30px 50px; /* เพิ่มระยะห่างจากขอบ */
+      }
+
+      .logo {
+        width: 150px; /* ปรับขนาดโลโก้ */
+        max-width: 150%;
+      }
+
+      /* ปรับขนาดโลโก้ในหน้าจอเล็ก */
+      @media (max-width: 768px) {
+        .logo {
+          width: 150px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo-container {
+          justify-content: center; /* จัดกึ่งกลางบนหน้าจอมือถือ */
+          padding: 30px 20px; /* เพิ่มระยะห่างจากขอบบนและซ้าย */
+        }
+
+        .logo {
+          width: 150px; /* ขนาดโลโก้เล็กลงสำหรับมือถือ */
+        }
+      }
+
+      /* Footer styles */
+      footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        font-size: 14px;
+        color: #6c757d;
+      }
+
+      /* Container Styling */
+.container {
+  max-width: 1200px; /* จำกัดความกว้างสูงสุดของ container เพื่อไม่ให้กว้างเกินไป */
+  margin: 0 auto; /* จัดให้อยู่กึ่งกลาง */
+  padding: 40px 20px; /* เพิ่ม padding รอบ ๆ เนื้อหา */
+  background-color: #f8f9fa; /* สีพื้นหลังที่นุ่มนวล */
+  border-radius: 8px; /* เพิ่มความมนให้กับมุมของ container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้ container ดูลอยขึ้นมา */
+}
+
+/* Heading Styling */
+h1 {
+  font-size: 2.5rem; /* ขนาดฟอนต์ใหญ่สำหรับหัวข้อ */
+  text-align: center; /* จัดข้อความให้อยู่กลาง */
+  margin-bottom: 30px; /* เว้นระยะห่างจากเนื้อหาด้านล่าง */
+  color: #343a40; /* ใช้สีเข้มเพื่อให้อ่านง่าย */
+}
+
+/* Form and input styling */
+.form-group {
+  margin-bottom: 20px; /* เพิ่มระยะห่างระหว่างฟอร์มแต่ละส่วน */
+}
+
+label {
+  font-size: 1.2rem; /* ขนาดของ label ที่เหมาะสม */
+  color: #495057; /* สีของข้อความที่อ่านง่าย */
+}
+
+input[type="file"] {
+  padding: 10px; /* เพิ่ม padding ให้ input ดูเป็นปุ่มมากขึ้น */
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* เพิ่ม animation เล็กน้อยเมื่อ hover */
+}
+
+button:hover {
+  background-color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+}
+
+.alert {
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%; /* Could be more or less, depending on screen size */
+  text-align: center;
+  border-radius: 8px;
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Logo with space from the top and left -->
+    <div class="logo-container">
+      <img src="static/shera_logo.png" alt="Company Logo" class="logo">
+    </div>
+
+    <div class="container">
+      <h1 class="mt-5">Extracted Numbers</h1>
+    
+      <form method="post" action="/save_text" id="form">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Line</th>
+                        <th>Extracted Numbers</th>
+                        <th>Edit</th>
+                        <th>Confirm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Line">รหัสพาเลท</td>
+                    <td data-label="Extracted Numbers">
+                      <textarea class="form-control" id="text_1" disabled>{{ extracted_text[0] }}</textarea>
+                      <input type="hidden" name="edited_text_1" id="hidden_text_1" value="{{ extracted_text[0] }}">
+                    </td>
+                    <td data-label="Edit">
+                      <button type="button" class="btn btn-warning" onclick="editText(1)">Edit</button>
+                    </td>
+                    <td data-label="Confirm">
+                      <button type="button" class="btn btn-success" id="confirm_1" onclick="confirmText(1)">Confirm</button>
+                    </td>
+                  </tr>
+                  
+
+                  <tr>
+                    <td data-label="Line">รหัสผลิต</td>
+                    <td data-label="Extracted Numbers">
+                      <textarea class="form-control" id="text_2" disabled>{{ extracted_text[1] }}</textarea>
+                      <input type="hidden" name="edited_text_2" id="hidden_text_2" value="{{ extracted_text[1] }}">
+                    </td>
+                    <td data-label="Edit">
+                      <button type="button" class="btn btn-warning" onclick="editText(2)">Edit</button>
+                    </td>
+                    <td data-label="Confirm">
+                      <button type="button" class="btn btn-success" id="confirm_2" onclick="confirmText(2)">Confirm</button>
+                    </td>
+                  </tr>
+
+
+                  <tr>
+                    <td data-label="Line">รหัสสินค้า</td>
+                    <td data-label="Extracted Numbers">
+                      <textarea class="form-control" id="text_3" disabled>{{ extracted_text[2] }}</textarea>
+                      <input type="hidden" name="edited_text_3" id="hidden_text_3" value="{{ extracted_text[2] }}">
+                    </td>
+                    <td data-label="Edit">
+                      <button type="button" class="btn btn-warning" onclick="editText(3)">Edit</button>
+                    </td>
+                    <td data-label="Confirm">
+                      <button type="button" class="btn btn-success" id="confirm_3" onclick="confirmText(3)">Confirm</button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td data-label="Line">วันที่ถอดแผ่น</td>
+                    <td data-label="Extracted Numbers">
+                      <textarea class="form-control" id="text_4" disabled>{{ extracted_text[3] }}</textarea>
+                      <input type="hidden" name="edited_text_4" id="hidden_text_4" value="{{ extracted_text[3] }}">
+                    </td>
+                    <td data-label="Edit">
+                      <button type="button" class="btn btn-warning" onclick="editText(4)">Edit</button>
+                    </td>
+                    <td data-label="Confirm">
+                      <button type="button" class="btn btn-success" id="confirm_4" onclick="confirmText(4)">Confirm</button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td data-label="Line">จำนวนแผ่น</td>
+                    <td data-label="Extracted Numbers">
+                      <textarea class="form-control" id="text_5" disabled>{{ extracted_text[4] }}</textarea>
+                      <input type="hidden" name="edited_text_5" id="hidden_text_5" value="{{ extracted_text[4] }}">
+                    </td>
+                    <td data-label="Edit">
+                      <button type="button" class="btn btn-warning" onclick="editText(5)">Edit</button>
+                    </td>
+                    <td data-label="Confirm">
+                      <button type="button" class="btn btn-success" id="confirm_5" onclick="confirmText(5)">Confirm</button>
+                    </td>
+                  </tr>
+
+
+                
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-success">Save Numbers to Excel</button>
+        
+    </form> 
+
+
+      <a href="/" class="btn btn-secondary mt-3">Upload Another Image</a>
+    </div>
+
+ <!-- Pop-up Modal -->
+ <div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Confirmation Needed</h2>
+    <p>Please confirm all rows before saving the numbers to Excel.</p>
+    <button id="modalConfirmBtn" class="btn btn-primary">OK</button>
+  </div>
+</div>
+</div>
+
+    <!-- Footer with developer credit -->
+    <footer>
+      Developed by [Fac 4.0]
+    </footer>
+    <script>
+      // Function to enable editing of text
+      function editText(id) {
+        document.getElementById('text_' + id).disabled = false; // Enable textarea for editing
+        document.getElementById('confirm_' + id).disabled = false; // Enable confirm button
+      }
+    
+      // Function to confirm text
+      function confirmText(id) {
+        const textarea = document.getElementById('text_' + id);
+        const hiddenInput = document.getElementById('hidden_text_' + id);
+    
+        // Copy textarea value to the hidden input
+        hiddenInput.value = textarea.value;
+    
+        // Lock the textarea when confirming
+        textarea.disabled = true; 
+        const confirmButton = document.getElementById('confirm_' + id);
+        confirmButton.innerHTML = '✔'; // Change to check mark
+        confirmButton.disabled = true; // Disable confirm button
+      }
+    
+      // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that closes the modal
+var closeModal = document.getElementsByClassName("close")[0];
+var modalConfirmBtn = document.getElementById("modalConfirmBtn");
+
+// When the user clicks on the button, close the modal
+closeModal.onclick = function() {
+  modal.style.display = "none";
+}
+
+modalConfirmBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Modify form submission
+$('#form').on('submit', function(event) {
+  let canSubmit = true; // Variable to check if the form can be submitted
+
+  // Check every row to ensure confirmation is done
+  $('tbody tr').each(function() {
+    const confirmButton = $(this).find('.btn-success');
+
+    // Check if the confirm button has a check mark
+    if (confirmButton.html() !== '✔') { 
+      canSubmit = false; // Set to not submit
+      return false; // Break the loop
+    }
+  });
+
+  // Alert if any row is not confirmed
+  if (!canSubmit) {
+    event.preventDefault(); // Cancel the form submission
+    modal.style.display = "block"; // Show the modal popup
+  }
+});
+
+    </script>
+    
+    
+
+
+  </body>
+</html>
